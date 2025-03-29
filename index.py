@@ -8,7 +8,18 @@ import io
 API_KEY = "e5c26b19fe5c80a2b50c9f80e94a0850"
 API_URL = "https://api.themoviedb.org/3/search/movie"
 
+def check_internet_connection():
+    try:
+        requests.get("https://www.google.com", timeout=5)
+        return True
+    except requests.ConnectionError:
+        return False
+
 def get_movie_info(movie_name):
+    if not check_internet_connection():
+        messagebox.showerror("Error", "No internet connection")
+        return None
+
     params = {
         "api_key": API_KEY,
         "query": movie_name
